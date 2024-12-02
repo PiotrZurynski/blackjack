@@ -5,17 +5,27 @@ class BlackJack:
     def __init__(self):
         pass
     def hand(self):
-        self.dealhand = random.sample(self.listakart, 2)
-        if self.dealhand[0]=="J" or "Q" or "K" and self.dealhand[1] =="J" or "Q" or "K":
-            self.handValue=10 
-        elif self.dealhand[0]=="A" and self.dealhand[1]=="A":
-            self.handValue=11
-        self.handValue=self.dealhand[0]+self.dealhand[1]
-        return self.dealhand 
+        self.dealhand = random.sample(self.listakart, 2) 
+        self.handValue = 0  
+        ace_count = 0  
+        wartosci_kart = {"J": 10, "Q": 10, "K": 10, "A": 11}
+        for karta in self.dealhand:
+            if isinstance(karta, str): 
+                if karta == "A":
+                    ace_count += 1  
+                self.handValue += wartosci_kart[karta] 
+            else:  
+                self.handValue += karta
+        while self.handValue > 21 and ace_count > 0:
+            self.handValue -= 10  
+            ace_count -= 1  
+        return self.handValue
     def hit(self):
          new_card=random.sample(self.listakart,1)
          self.dealhand.extend(new_card)
          return self.dealhand
+    def stand(self):
+        return self.dealhand
     def win(self):
         if self.handValue==21:
             print("you won")
@@ -31,6 +41,9 @@ class Dealer(BlackJack):
     def hit(self):
         if self.handValue < 17:
             super().hit
+    def stand(self):
+        if self.handValue >=17:
+            super().stand
 class Player(BlackJack):
     def __init__(self):
         pass
@@ -38,10 +51,13 @@ class Player(BlackJack):
         super()
     def hit(self):
         super().hit
+    def stand(self):
+        super().stand
        
 black=BlackJack()
 print(black.hand())
 print(black.hit())
+print(black.stand())
 
 
 
