@@ -16,6 +16,12 @@ class BlackJack:
          new_card=random.sample(self.listakart,1)
          self.dealhand.extend(new_card)
          return self.dealhand
+    def win(self):
+        if self.handValue==21:
+            print("you won")
+        elif self.handValue >21:
+            print("you lose")
+    
     
 class Dealer(BlackJack):
     def __init__(self):
@@ -25,7 +31,14 @@ class Dealer(BlackJack):
     def hit(self):
         if self.handValue < 17:
             super().hit
-        
+class Player(BlackJack):
+    def __init__(self):
+        pass
+    def hand(self):
+        super()
+    def hit(self):
+        super().hit
+       
 black=BlackJack()
 print(black.hand())
 print(black.hit())
